@@ -33,10 +33,15 @@ post '/callback' do
     begin
       if event.kind_of?(Line::Bot::Event::Message)
         logger.debug("data comes here")
+        message = {}
+        begin
         message = {
           type: 'text',
-          text: event.message['text']
+          text: event['message']['text']
         }
+        rescue => e
+          logger.warn(e)
+        end
         begin
           client.reply_message(event['replyToken'], message)
         rescue => e

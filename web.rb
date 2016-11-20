@@ -32,28 +32,26 @@ post '/callback' do
   events.each do |event|
     begin
       if event.is_a?(Line::Bot::Event::Message)
-        if event['type'] == 'text'
-          logger.debug("data comes here")
-          message = {}
+        logger.debug("data comes here")
+        message = {}
 
-          logger.debug("#{event['message']}")
+        logger.debug("#{event['message']}")
 
-          logger.debug("set message text")
-          logger.debug("#{event['message']['text']}")
-          begin
-          message = {
-            type: 'text',
-            text: event['message']['text']
-          }
-          rescue => e
-            logger.warn(e)
-          end
-          begin
-            client.reply_message(event['replyToken'], message)
-            logger.debug("post reply message :))))))))))")
-          rescue => e
-            logger.warn(e)
-          end
+        logger.debug("set message text")
+        logger.debug("#{event['message']['text']}")
+        begin
+        message = {
+          type: 'text',
+          text: event['message']['text']
+        }
+        rescue => e
+          logger.warn(e)
+        end
+        begin
+          client.reply_message(event['replyToken'], message)
+          logger.debug("post reply message :))))))))))")
+        rescue => e
+          logger.warn(e)
         end
       else
         logger.debug("data did not catch by above #{event['type'].class}")

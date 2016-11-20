@@ -8,7 +8,7 @@ def client
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
     config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
   }
-  end
+end
 get '/callback' do
   puts "success"
 end
@@ -31,27 +31,29 @@ post '/callback' do
   begin
   events.each do |event|
     begin
-      if event.is_a?(Line::Bot::Event)
-        logger.debug("data comes here")
-        message = {}
+      if event.is_a?(Line::Bot::Event::Message)
+        if event.type.is_a?(Line::Bot::Event::MessageType::Text)
+          logger.debug("data comes here")
+          message = {}
 
-        logger.debug("#{event['message']}")
+          logger.debug("#{event['message']}")
 
-        logger.debug("set message text")
-        logger.debug("#{event['message']['text']}")
-        begin
-        message = {
-          type: 'text',
-          text: event['message']['text']
-        }
-        rescue => e
-          logger.warn(e)
-        end
-        begin
-          client.reply_message(event['replyToken'], message)
-          puts "post reply message :))))))))))"
-        rescue => e
-          logger.warn(e)
+          logger.debug("set message text")
+          logger.debug("#{event['message']['text']}")
+          begin
+          message = {
+            type: 'text',
+            text: event['message']['text']
+          }
+          rescue => e
+            logger.warn(e)
+          end
+          begin
+            client.reply_message(event['replyToken'], message)
+            puts "post reply message :))))))))))"
+          rescue => e
+            logger.warn(e)
+          end
         end
       else
         logger.debug("data did not catch by above #{e.class}")

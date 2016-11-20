@@ -46,7 +46,8 @@ post '/callback' do
         begin
         message = {
           type: 'text',
-          text: reply_message_text
+          #text: reply_message_text
+          text:  "hogehoge"
         }
         rescue => e
           logger.warn(e)

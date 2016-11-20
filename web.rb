@@ -23,22 +23,18 @@ post '/callback' do
   end
 
   events = client.parse_events_from(body)
-  logger.debug(" event type = #{events.first.type}")
   events.each { |event|
-    case event
-      when Line::Bot::Event::Message
-      case event.type
-      when Line::Bot::Event::MessageType::Text
-        logger.debug("event type checking #{event.type.to_s}")
-        message = {
-          type: 'text',
-          text: event.message['text']
-        }
-        begin
-          client.reply_message(event['replyToken'], message)
-        rescue => e
-          puts e
-        end
+    case event.type.to_s
+    when "message"
+      logger.debug("event type checking #{event.type.to_s}")
+      message = {
+        type: 'text',
+        text: event.message['text']
+      }
+      begin
+        client.reply_message(event['replyToken'], message)
+      rescue => e
+        puts e
       end
     end
   }

@@ -30,7 +30,7 @@ post '/callback' do
   end
   events.each { |event|
     case event.message.type
-    when Line::Bot::Event::Message
+      when Line::Bot::Event::Message then
         message = {
           type: 'text',
           text: event.message['text']
@@ -41,7 +41,6 @@ post '/callback' do
           logger.warn(e)
         end
       end
-    end
   }
 
   puts "OK"

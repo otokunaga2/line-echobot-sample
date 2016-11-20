@@ -57,7 +57,7 @@ post '/callback' do
           #client.reply_message(reply_token, message)
           response = client.push_message("5234458995507", message)
 
-          logger.debug("post reply message :))))))))))")
+          logger.debug("post reply message #{client.pretty_print}")
           logger.debug("response =#{response}")
         rescue => e
           logger.warn(e)

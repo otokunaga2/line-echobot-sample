@@ -29,10 +29,14 @@ post '/callback' do
           type: 'text',
           text: event.message['text']
         }
-        client.reply_message(event['replyToken'], message)
+        begin
+          client.reply_message(event['replyToken'], message)
+        rescue => e
+          puts e
+        end
       end
     end
   }
 
-  "OK"
+  puts "OK"
 end

@@ -28,22 +28,9 @@ post '/callback' do
   rescue => e
     logger.warn(e)
   end
-  begin
-  logger.debug("events body=#{events.type.to_s}") 
-  rescue => e
-    logger.warn(e)
-  end
-  begin
-  logger.debug("events body=#{events.message.type.to_s}") 
-  rescue => e
-    logger.warn(e)
-  end
   events.each { |event|
-    case event.type.to_s
-    when "message"
-      case event.message.type.to_s
-      when "text"
-        logger.debug("event type checking #{event.type.to_s}")
+    case event.message.type
+    when Line::Bot::Event::Message
         message = {
           type: 'text',
           text: event.message['text']
@@ -51,7 +38,7 @@ post '/callback' do
         begin
           client.reply_message(event['replyToken'], message)
         rescue => e
-          puts e
+          logger.warn(e)
         end
       end
     end

@@ -1,6 +1,8 @@
 require 'sinatra'   # gem 'sinatra'
 require 'line/bot'  # gem 'line-bot-api'
 require 'json'
+require 'logger'
+logger = Logger.new(STDOUT)
 def client
   @client ||= Line::Bot::Client.new { |config|
     config.channel_secret = ENV["LINE_CHANNEL_SECRET"]
@@ -21,10 +23,9 @@ post '/callback' do
   end
 
   events = client.parse_events_from(body)
-  puts "event comes here"
-  puts events.to_s
   events.each { |event|
     case event
+    logger.debug {"event type checking #{event.type}"}
     when Line::Bot::Event::Message
       case event.type
       when Line::Bot::Event::MessageType::Text

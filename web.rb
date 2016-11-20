@@ -28,7 +28,8 @@ post '/callback' do
   rescue => e
     logger.debug(e)
   end
-  events.each { |event|
+  begin
+  events.each do |event|
     begin
       if event.kind_of?(Line::Bot::Event::Message)
         logger.debug("data comes here")
@@ -47,7 +48,9 @@ post '/callback' do
     rescue => e
       logger.debug(e)
     end
-  }
-
+  end
+  rescue => e
+    logger.debug(e)
+  end
   puts "OK"
 end

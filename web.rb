@@ -50,7 +50,7 @@ post '/callback' do
           end
           begin
             client.reply_message(event['replyToken'], message)
-            puts "post reply message :))))))))))"
+            logger.debug("post reply message :))))))))))")
           rescue => e
             logger.warn(e)
           end

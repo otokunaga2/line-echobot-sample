@@ -23,7 +23,7 @@ post '/callback' do
   end
 
   events = client.parse_events_from(body)
-
+  logger.debug(" event type = #{events.first.type}")
   events.each { |event|
     case event
       when Line::Bot::Event::Message

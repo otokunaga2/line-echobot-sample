@@ -32,6 +32,13 @@ post '/callback' do
   events.each do |event|
     begin
       if event.is_a?(Line::Bot::Event::Message)
+        begin
+          reply_token = event['replyToken'] if event['replyToken']  
+        rescue => e
+          logger.warn("while event setting error has occured")
+        end
+        reply_message_text = event['message']['text'] if event['message']['text']
+
         logger.debug("data comes here")
         message = {}
 
@@ -39,13 +46,14 @@ post '/callback' do
         begin
         message = {
           type: 'text',
-          text: event['message']['text']
+          text: reply_message_text
         }
         rescue => e
           logger.warn(e)
         end
         begin
-          client.reply_message(event['replyToken'], message)
+          logger.debug("reply message_test1 #{reply_token}, #{message}")
+          client.reply_message(reply_token, message)
           logger.debug("post reply message :))))))))))")
         rescue => e
           logger.warn(e)

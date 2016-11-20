@@ -23,6 +23,21 @@ post '/callback' do
   end
 
   events = client.parse_events_from(body)
+  begin
+  logger.debug("events body=#{events.first}") 
+  rescue => e
+    logger.warn(e)
+  end
+  begin
+  logger.debug("events body=#{events.type.to_s}") 
+  rescue => e
+    logger.warn(e)
+  end
+  begin
+  logger.debug("events body=#{events.message.type.to_s}") 
+  rescue => e
+    logger.warn(e)
+  end
   events.each { |event|
     case event.type.to_s
     when "message"

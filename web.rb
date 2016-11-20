@@ -29,7 +29,8 @@ post '/callback' do
     logger.warn(e)
   end
   events.each { |event|
-    case event.message.type
+    begin
+    case event.message[:type]
       when Line::Bot::Event::Message then
         message = {
           type: 'text',
@@ -41,6 +42,9 @@ post '/callback' do
           logger.warn(e)
         end
       end
+    rescue => e
+      logger.warn(e)
+    end
   }
 
   puts "OK"

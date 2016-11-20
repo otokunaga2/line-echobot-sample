@@ -35,10 +35,7 @@ post '/callback' do
         logger.debug("data comes here")
         message = {}
 
-        logger.debug("#{event['message']}")
-
-        logger.debug("set message text")
-        logger.debug("#{event['message']['text']}")
+        logger.debug("event data is set as #{event['message']['text']}")
         begin
         message = {
           type: 'text',

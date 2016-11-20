@@ -34,6 +34,11 @@ post '/callback' do
       if event.kind_of?(Line::Bot::Event::Message)
         logger.debug("data comes here")
         message = {}
+
+        logger.debug("#{event['message']}")
+
+        logger.debug("set message text")
+        logger.debug("#{event['message']['text']}")
         begin
         message = {
           type: 'text',

@@ -42,7 +42,7 @@ post '/callback' do
           logger.warn(e)
         end
       else
-        logger.warn("data did not catch by above ")
+        logger.warn("data did not catch by above #{e.class}")
       end
     rescue => e
       logger.warn(e)

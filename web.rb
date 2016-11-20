@@ -31,7 +31,7 @@ post '/callback' do
   begin
   events.each do |event|
     begin
-      if event.kind_of?(Line::Bot::Event::Message)
+      if event.is_a?(Line::Bot::Event)
         logger.debug("data comes here")
         message = {}
 

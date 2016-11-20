@@ -56,7 +56,7 @@ post '/callback' do
           end
         end
       else
-        logger.debug("data did not catch by above #{e.class}")
+        logger.debug("data did not catch by above #{event['type'].class}")
       end
     rescue => e
       logger.debug(e)

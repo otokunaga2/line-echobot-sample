@@ -26,6 +26,8 @@ post '/callback' do
   events.each { |event|
     case event.type.to_s
     when "message"
+    case event.message.type.to_s
+    when "text"
       logger.debug("event type checking #{event.type.to_s}")
       message = {
         type: 'text',

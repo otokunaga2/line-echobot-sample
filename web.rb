@@ -30,8 +30,7 @@ post '/callback' do
   end
   events.each { |event|
     begin
-    case event.class
-      when Line::Bot::Event::Message then
+      if event.kind_of?(Line::Bot::Event::Message)
         logger.warn("data comes here")
         message = {
           type: 'text',
@@ -42,7 +41,7 @@ post '/callback' do
         rescue => e
           logger.warn(e)
         end
-        else
+      else
         logger.warn("data did not catch by above ")
       end
     rescue => e

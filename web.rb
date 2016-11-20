@@ -32,7 +32,7 @@ post '/callback' do
   events.each do |event|
     begin
       if event.is_a?(Line::Bot::Event::Message)
-        if event['type'].is_a?(Line::Bot::Event::MessageType::Text)
+        if event['type'] == 'text'
           logger.debug("data comes here")
           message = {}
 

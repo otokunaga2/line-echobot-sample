@@ -26,17 +26,18 @@ post '/callback' do
   events.each { |event|
     case event.type.to_s
     when "message"
-    case event.message.type.to_s
-    when "text"
-      logger.debug("event type checking #{event.type.to_s}")
-      message = {
-        type: 'text',
-        text: event.message['text']
-      }
-      begin
-        client.reply_message(event['replyToken'], message)
-      rescue => e
-        puts e
+      case event.message.type.to_s
+      when "text"
+        logger.debug("event type checking #{event.type.to_s}")
+        message = {
+          type: 'text',
+          text: event.message['text']
+        }
+        begin
+          client.reply_message(event['replyToken'], message)
+        rescue => e
+          puts e
+        end
       end
     end
   }

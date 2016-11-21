@@ -52,14 +52,13 @@ post '/callback' do
         reply_message_text = event['message']['text'] if event['message']['text']
 
         logger.debug("data comes here")
-        message = {}
+        #message = {}
 
         logger.debug("event data is set as #{event['message']['text']}")
         begin
         message = {
           type: 'text',
-          #text: reply_message_text
-          text:  "hogehogehogehoge"
+          text: reply_message_text
         }
         rescue => e
           logger.warn(e)
@@ -67,7 +66,6 @@ post '/callback' do
         begin
           logger.debug("reply message_test1 #{reply_token}, #{message}")
           response = client.reply_message(reply_token, message)
-          #response = client.push_message("5234458995507", message)
 
           logger.debug("post reply message #{client}")
           logger.debug("response =#{response}")

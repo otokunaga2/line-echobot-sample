@@ -44,33 +44,36 @@ post '/callback' do
   events.each do |event|
     begin
       if event.is_a?(Line::Bot::Event::Message)
-        begin
-          reply_token = event['replyToken'] if event['replyToken']  
-        rescue => e
-          logger.warn("while event setting error has occured")
-        end
-        reply_message_text = event['message']['text'] if event['message']['text']
+        case event.type
+        when Line::Bot::Event::Message then #テキストメッセージの際の処理
+          begin
+            reply_token = event['replyToken'] if event['replyToken']  
+          rescue => e
+            logger.warn("while event setting error has occured")
+          end
+          reply_message_text = event['message']['text'] if event['message']['text']
+          logger.debug("event data is set as #{event['message']['text']}")
+          begin
+          message = {
+            type: 'text',
+            text: reply_message_text
+          }
+          rescue => e
+            logger.warn(e)
+          end
+          begin
+            logger.debug("reply message_test1 #{reply_token}, #{message}")
+            response = client.reply_message(reply_token, message)
 
-        logger.debug("data comes here")
-        #message = {}
-
-        logger.debug("event data is set as #{event['message']['text']}")
-        begin
-        message = {
-          type: 'text',
-          text: reply_message_text
-        }
-        rescue => e
-          logger.warn(e)
-        end
-        begin
-          logger.debug("reply message_test1 #{reply_token}, #{message}")
-          response = client.reply_message(reply_token, message)
-
-          logger.debug("post reply message #{client}")
-          logger.debug("response =#{response}")
-        rescue => e
-          logger.warn(e)
+            logger.debug("post reply message #{client}")
+            logger.debug("response =#{response}")
+          rescue => e
+            logger.warn(e)
+          end
+        when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
+          response = client.get_message_content(event.message['id'])
+          tf = Tempfile.open("content")
+          tf.write(response.body)
         end
       else
         logger.debug("data did not catch by above #{event['type'].class}")

@@ -43,7 +43,7 @@ post '/callback' do
         message = {
           type: 'text',
           #text: reply_message_text
-          text:  "hogehoge"
+          text:  "hogehogehogehoge"
         }
         rescue => e
           logger.warn(e)
@@ -68,7 +68,5 @@ post '/callback' do
   rescue => e
     logger.debug(e)
   end
-  puts "OK"
-  puts "OK"
   puts "OK"
 end

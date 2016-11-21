@@ -9,7 +9,6 @@ def client
     config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
   }
 end
-#post handler
 post '/callback' do
   body = request.body.read
   puts "body debugging"
@@ -69,5 +68,7 @@ post '/callback' do
   rescue => e
     logger.debug(e)
   end
+  puts "OK"
+  puts "OK"
   puts "OK"
 end

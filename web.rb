@@ -9,6 +9,22 @@ def client
     config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
   }
 end
+
+module Line
+  module Bot
+    class HTTPClient
+      def http(uri)
+        proxy = URI(ENV["FIXIE_URL"])
+        http = Net::HTTP.new(uri.host, uri.port, proxy.host, proxy.port, proxy.user, proxy.password)
+        if uri.scheme == "https"
+          http.use_ssl = true
+        end
+
+        http
+      end
+    end
+  end
+end
 post '/callback' do
   body = request.body.read
   puts "body debugging"

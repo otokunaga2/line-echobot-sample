@@ -9,9 +9,6 @@ def client
     config.channel_token = ENV["LINE_CHANNEL_TOKEN"]
   }
 end
-get '/callback' do
-  puts "success"
-end
 #post handler
 post '/callback' do
   body = request.body.read
